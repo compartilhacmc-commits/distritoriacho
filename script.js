@@ -1,17 +1,19 @@
 // ===================================
-// CONFIGURAÇÃO DA PLANILHA (DUAS ABAS)
+// ✅ CONFIGURAÇÃO DA PLANILHA (DUAS ABAS) - ATUALIZADO PARA DISTRITO RIACHO
 // ===================================
-const SHEET_ID = '1r6NLcVkVLD5vp4UxPEa7TcreBpOd0qeNt-QREOG4Xr4';
+const SHEET_ID = '1367XyjVDYyDWo3vUz6Hd_zEqLAJkH_c1MwlvtZnpmUc';
 
-// ✅ CONFIGURAÇÃO DAS DUAS ABAS
+// ✅ CONFIGURAÇÃO DAS DUAS ABAS COM OS NOVOS LINKS
 const SHEETS = [
     {
-        name: 'PENDÊNCIAS ELDORADO',
-        url: `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&sheet=${encodeURIComponent('PENDÊNCIAS ELDORADO')}`
+        name: 'PENDÊNCIAS RIACHO',
+        gid: '278071504',
+        url: `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&gid=278071504`
     },
     {
         name: 'RESOLVIDOS',
-        url: `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&sheet=${encodeURIComponent('RESOLVIDOS')}`
+        gid: '1996983614',
+        url: `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&gid=1996983614`
     }
 ];
 
@@ -1107,11 +1109,4 @@ function downloadExcel() {
     XLSX.utils.book_append_sheet(wb, ws, 'Dados Completos');
 
     ws['!cols'] = [
-        { wch: 20 }, { wch: 18 }, { wch: 15 }, { wch: 15 },
-        { wch: 30 }, { wch: 30 }, { wch: 18 }, { wch: 20 },
-        { wch: 25 }, { wch: 18 }, { wch: 20 }, { wch: 18 }, { wch: 20 }
-    ];
-
-    const hoje = new Date().toISOString().split('T')[0];
-    XLSX.writeFile(wb, `Dados_Eldorado_${hoje}.xlsx`);
-}
+        { wch: 20 },<span class="cursor">█</span>
