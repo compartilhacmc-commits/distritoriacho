@@ -176,6 +176,7 @@ async function loadData() {
   try {
     console.log('Carregando dados das duas abas...');
 
+    // ✅ CORREÇÃO: carregar também o "tipo" (PENDENTE/RESOLVIDO)
     const promises = SHEETS.map(sheet =>
       fetch(sheet.url, { cache: 'no-store' })
         .then(response => {
@@ -191,7 +192,8 @@ async function loadData() {
             throw new Error(`Aba "${sheet.name}" retornou HTML (provável falta de permissão).`);
           }
 
-          return { name: sheet.name, csv: csvText };
+          // ✅ retorna também tipo
+          return { name: sheet.name, tipo: sheet.tipo, csv: csvText };
         })
     );
 
@@ -207,7 +209,8 @@ async function loadData() {
       const sheetData = rows.slice(1)
         .filter(row => row.length > 1 && (row[0] || '').trim() !== '')
         .map(row => {
-          const obj = { _origem: result.name };
+          // ✅ CORREÇÃO PRINCIPAL: _origem vira PENDENTE/RESOLVIDO (não "RIACHO")
+          const obj = { _origem: result.tipo };
           headers.forEach((header, index) => {
             if (!header) return;
             obj[header] = (row[index] || '').trim();
@@ -564,7 +567,7 @@ function updateCharts() {
   // Pizza
   createPieChart('chartPizzaStatus', statusLabels, statusValues);
 
-  // ✅ NOVO: Evolução Temporal de Pendências por Mês
+  // ✅ Evolução Temporal de Pendências por Mês
   createEvolucaoTemporalChart('chartEvolucaoTemporal');
 
   // Pendências por Prestador
@@ -848,7 +851,7 @@ function createVerticalBarChart(canvasId, labels, data, color) {
 }
 
 // ===================================
-// ✅ NOVO: GRÁFICO DE EVOLUÇÃO TEMPORAL (LINHA + ÁREA)
+// ✅ GRÁFICO DE EVOLUÇÃO TEMPORAL (LINHA + ÁREA)
 // ===================================
 function createEvolucaoTemporalChart(canvasId) {
   const ctx = document.getElementById(canvasId);
@@ -860,6 +863,8 @@ function createEvolucaoTemporalChart(canvasId) {
   const mesCountMap = {};
 
   filteredData.forEach(item => {
+    // ✅ CORREÇÃO: garantir que conta apenas aba PENDENTE
+    if (!isOrigemPendencias(item)) return;
     if (!isPendenciaByUsuario(item)) return;
 
     const dataInicio = parseDate(getColumnValue(item, [
@@ -877,7 +882,7 @@ function createEvolucaoTemporalChart(canvasId) {
 
   // Ordenar cronologicamente
   const mesesOrdenados = Object.keys(mesCountMap).sort();
-  
+
   const labels = mesesOrdenados.map(mesAno => {
     const [ano, mes] = mesAno.split('-');
     const nomeMes = new Date(ano, mes - 1).toLocaleDateString('pt-BR', { month: 'short', year: 'numeric' });
@@ -937,8 +942,8 @@ function createEvolucaoTemporalChart(canvasId) {
       },
       scales: {
         x: {
-          ticks: { 
-            font: { size: 11, weight: '600' }, 
+          ticks: {
+            font: { size: 11, weight: '600' },
             color: '#4a5568',
             maxRotation: 45,
             minRotation: 25
@@ -947,8 +952,8 @@ function createEvolucaoTemporalChart(canvasId) {
         },
         y: {
           beginAtZero: true,
-          ticks: { 
-            font: { size: 12, weight: '600' }, 
+          ticks: {
+            font: { size: 12, weight: '600' },
             color: '#4a5568',
             precision: 0
           },
@@ -1258,5 +1263,3 @@ function downloadExcel() {
   const hoje = new Date().toISOString().split('T')[0];
   XLSX.writeFile(wb, `Dados_Riacho_${hoje}.xlsx`);
 }
-
-
