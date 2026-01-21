@@ -9,8 +9,8 @@ function gvizCsvUrl(sheetId, gid) {
 // ===================================
 // CONFIGURAÇÃO DA PLANILHA (DUAS ABAS)
 // ===================================
-// ✅ PLANILHA "VARGEM DAS FLORES"
-const SHEET_ID = '1IHknmxe3xAnfy5Bju_23B5ivIL-qMaaE6q_HuPaLBpk';
+// ✅ PLANILHA "RIACHO"
+const SHEET_ID = '1367XyjVDYyDWo3vUz6Hd_zEqLAJkH_c1MwlvtZnpmUc';
 
 const SHEETS = [
   {
@@ -1258,4 +1258,5 @@ function downloadExcel() {
   const hoje = new Date().toISOString().split('T')[0];
   XLSX.writeFile(wb, `Dados_Riacho_${hoje}.xlsx`);
 }
+
 
