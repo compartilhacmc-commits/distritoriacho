@@ -14,13 +14,13 @@ const SHEET_ID = '1367XyjVDYyDWo3vUz6Hd_zEqLAJkH_c1MwlvtZnpmUc';
 
 const SHEETS = [
   {
-    name: 'RIACHO',
+    name: 'PENDÊNCIAS RIACHO',
     url: gvizCsvUrl(SHEET_ID, '278071504'),
     distrito: 'RIACHO',
     tipo: 'PENDENTE'
   },
   {
-    name: 'RIACHO',
+    name: 'RESOLVIDOS RIACHO',
     url: gvizCsvUrl(SHEET_ID, '1996983614'),
     distrito: 'RIACHO',
     tipo: 'RESOLVIDO'
@@ -1319,3 +1319,4 @@ function downloadExcel() {
   const hoje = new Date().toISOString().split('T')[0];
   XLSX.writeFile(wb, `Dados_Eldorado_${hoje}.xlsx`);
 }
+
